@@ -18,7 +18,7 @@ class Program
 
         _client.Log += LogAsync;
 
-        await _client.LoginAsync(TokenType.Bot, "MTE4MzA5MTE4NDUyOTMyMjAyNA.GJW-Yo.HZfzvUlUUYYqwyW81R0SNXyFBo6xK-djnTCVI4");
+        await _client.LoginAsync(TokenType.Bot, "");
         await _client.StartAsync();
 
         _client.Ready += () =>
