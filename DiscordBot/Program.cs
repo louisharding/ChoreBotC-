@@ -1,30 +1,55 @@
-﻿
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using System;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
-using static Program;
+
 
 class Program
 {
+    private DiscordSocketClient _client;
     static async Task Main(string[] args)
     {
-        Console.WriteLine("waiting for an asynchronous request to return...");
-        await completeAcynchronousTask();
-        Console.WriteLine("completed ");
+        await new Program().RunBotAsync();
     }
 
-    static void myMethod()
+    public async Task RunBotAsync()
     {
-        Console.WriteLine("myMethod");
+        _client = new DiscordSocketClient();
+
+        _client.Log += LogAsync;
+
+        await _client.LoginAsync(TokenType.Bot, "MTE4MzA5MTE4NDUyOTMyMjAyNA.GJW-Yo.HZfzvUlUUYYqwyW81R0SNXyFBo6xK-djnTCVI4");
+        await _client.StartAsync();
+
+        _client.Ready += () =>
+        {
+            Console.WriteLine("bot connected & ready");
+            return Task.CompletedTask;
+        };
+
+        _client.MessageReceived += async (message) =>
+        {
+            if (message.Content != null)
+            {
+                if (message.Author.IsBot)
+                {
+                    return;
+                } else
+                {
+                    await message.Channel.SendMessageAsync("Hi");
+                }
+
+            }
+        };
+
+
+        await Task.Delay(-1);
     }
 
-
-    static async Task completeAcynchronousTask()
+    private Task LogAsync(LogMessage log)
     {
-        await Task.Delay(2000);
-        Console.WriteLine("Returning");
+        Console.WriteLine(log);
+        return Task.CompletedTask;
     }
+
 }
-
