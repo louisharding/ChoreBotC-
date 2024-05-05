@@ -18,7 +18,7 @@ class Program
 
         _client.Log += LogAsync;
 
-        await _client.LoginAsync(TokenType.Bot, "");
+        await _client.LoginAsync(TokenType.Bot, "MTE4MzA5MTE4NDUyOTMyMjAyNA.Gz5dhw.WcL_uR_8Br1vsIKgHjOPtFyPnpKFL_V-SXoxFk");
         await _client.StartAsync();
 
         _client.Ready += () =>
@@ -29,16 +29,12 @@ class Program
 
         _client.MessageReceived += async (message) =>
         {
-            if (message.Content != null)
-            {
-                if (message.Author.IsBot)
-                {
-                    return;
-                } else
-                {
-                    await message.Channel.SendMessageAsync("Hi");
-                }
+            Console.WriteLine("message is: " + message.Content);
 
+            if (!message.Author.IsBot)
+            {
+                string msgContent = message.Content;
+                await message.Channel.SendMessageAsync(msgContent);
             }
         };
 
