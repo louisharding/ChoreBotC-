@@ -8,6 +8,6 @@ namespace DiscordBot
 {
     internal class key
     {
-       internal String serverKey = new string("MTE4MzA5MTE4NDUyOTMyMjAyNA.Gz5dhw.WcL_uR_8Br1vsIKgHjOPtFyPnpKFL_V-SXoxFk");
+       internal String serverKey = new string("SacredKey2");
     }
 }
