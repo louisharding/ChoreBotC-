@@ -4,22 +4,31 @@ using System;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using DiscordBot;
+using System.Net.Mail;
+using System.Runtime.InteropServices;
+using System.Collections.Specialized;
 
 class Program
 {
-    private static DiscordSocketClient _client;
-
-
-    static async Task Main(string[] args)
+    //declare the client class, using class naming conventions with _
+    private DiscordSocketClient _client;
+    static void Main()
     {
-        //Initialise the bot client
-        _client = new DiscordSocketClient();
-
-        //Event handlers registration
-        _client.Log += LogAsync;
-        _client.Ready += ReadyAsync;
-        _client.MessageReceived += MessageReceivedAsync;
+        Console.WriteLine(discordbot.key);
     }
 
- 
+    //running the bot asynchronously, public because methods need to be accessed in main
+    public async Task RunBotAsync()
+    {
+        //initialise the _client field
+        _client = new DiscordSocketClient();
+
+        //subscribing to the MessageReceived event
+        //_client.MessageReceived += MessageReceivedAsync;
+
+        //Bot token
+        string key = discordbot.key;
+        
+
+    }
 }
