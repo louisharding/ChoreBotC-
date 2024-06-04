@@ -14,7 +14,7 @@ class Program
     private DiscordSocketClient _client;
     static void Main()
     {
-        Console.WriteLine(discordbot.key);
+        return;
     }
 
     //running the bot asynchronously, public because methods need to be accessed in main
@@ -23,12 +23,26 @@ class Program
         //initialise the _client field
         _client = new DiscordSocketClient();
 
-        //subscribing to the MessageReceived event
+        //subscribing to the MessageReceived event:
         //_client.MessageReceived += MessageReceivedAsync;
 
         //Bot token
         string key = discordbot.key;
+
+        //now send a message to the chat
         
+        //Login to discord
+        await _client.LoginAsync(TokenType.Bot, key);
+
+        //Start the client 
+        await _client.StartAsync();
+        //keep bot running
+        await Task.Delay(-1);
+    }
+
+    //Handles incoming messages
+    private async Task bob(SocketMessage message)
+    {
 
     }
 }
