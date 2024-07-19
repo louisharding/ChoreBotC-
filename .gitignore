@@ -366,6 +366,7 @@ FodyWeavers.xsd
 <<<<<<< HEAD
 *key.cs
 *discordbot.cs
+*keys.cs
 =======
 key.cs
 >>>>>>> fe641eb192a9a454f01da1fc6a71c9286eba33cc
