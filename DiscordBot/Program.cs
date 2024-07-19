@@ -3,13 +3,14 @@ using Discord.WebSocket;
 using System;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using DiscordBot;
 using System.Net.Mail;
+using DiscordBot;
 using System.Runtime.InteropServices;
 using System.Collections.Specialized;
 using System.Timers;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Channels;
+using DiscordBot;
 
 public class Program
 {
@@ -87,7 +88,7 @@ public class Program
         _client.MessageReceived += HandleMessgeAsync;
 
         //Bot token
-        string key = discordbot.key;
+        string key = keys.key;
 
         //Login to discord
         await _client.LoginAsync(TokenType.Bot, key);
