@@ -367,6 +367,7 @@ FodyWeavers.xsd
 *key.cs
 *discordbot.cs
 *keys.cs
+.env
 =======
 key.cs
 >>>>>>> fe641eb192a9a454f01da1fc6a71c9286eba33cc
