@@ -1,56 +1,33 @@
-﻿using System.Threading;
+﻿using System.Reflection;
+using System.Threading;
+using System.Threading.Channels;
 using System.Timers;
+using Discord;
 using Discord.WebSocket;
+using Microsoft.VisualBasic;
 
-
-
-public class Program
+public class DiscordTimer
 {
     //Fields
-    private readonly DiscordSocketClient _client;
-    private readonly System.Timers.Timer _timer;
-    //For accessing
-    public DiscordSocketClient Client => _client;
-    public System.Timers.Timer Timer => _timer;
-
-    static ValueTuple<string, ulong>[] BlokeList = new (string name, ulong userID)[]
-    {
-        ("Tom", 197771388415770624),
-        ("Darcy", 0),
-        ("Louis", 251434937436209152),
-        ("Connor", 0)
-    };
-    static DateTime today = DateTime.Today;
-    static int dateAsInt = today.DayOfYear;
-    static (string Name, ulong userID) todaysBloke = BlokeList[dateAsInt % 4];
-
+    private int dateAsInt = DateTime.Today.DayOfYear;
+    private System.Timers.Timer _timer;
 
     //Constructor
-    public Program(DiscordSocketClient client, System.Timers.Timer timer) 
+    public DiscordTimer()
     {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-        _timer = timer ?? throw new ArgumentNullException(nameof(timer));
-        SetTimer(_timer);
+        SetTimer();
     }
 
-    //Methods
-    static void Main(string[] args)
+    public void SetTimer(TimeOnly alarmTime = default)
     {
-        Program _program_ = new Program(new DiscordSocketClient(), new System.Timers.Timer());
-        
-        
-    }
-
-    static void SetTimer(System.Timers.Timer _timer)
-    {
-        //Set default alarm:
-        TimeOnly alarmTime = new TimeOnly(23, 00);
+        //Set default alarm
+        if (alarmTime == default) {alarmTime = new TimeOnly(23, 00);}
         //Current time as a TimeOnly type
         TimeOnly currentTime = TimeOnly.FromDateTime(DateTime.Now);
         //Difference between current and alarm time
         TimeSpan difference;
 
-        alarmTime = currentTime.AddMinutes(0.1);//delete me
+        alarmTime = currentTime.AddMinutes(0.03);//delete me
 
         Console.WriteLine($"alarm time: {alarmTime} \ncurrent time: {currentTime}");
 
@@ -66,25 +43,36 @@ public class Program
             difference = (TimeOnly.MaxValue - currentTime).Add(alarmTime.ToTimeSpan());
         }
 
-
-        Console.WriteLine($"Setting alarm for {alarmTime} which is {difference.TotalHours} hours from now. It's {todaysBloke.Name}'s day today");
+        //Console.WriteLine($"Setting alarm for {alarmTime} which is {difference.TotalHours} hours from now. It's {todaysBloke.Name}'s day today");
         _timer = new System.Timers.Timer(difference.TotalMilliseconds);
 
-
-        //_timer.Elapsed += OnTimedEvent;
+        _timer.Elapsed += OnTimedEvent;
         _timer.AutoReset = false;
         _timer.Enabled = true;
         _timer.Start();
 
     }
 
-    //run bot
-
-    //other methods
+    static void OnTimedEvent(Object source, ElapsedEventArgs e)
+    {
+        Console.WriteLine("timer up");
+        //Messages to the channel and DM to the blokeoftheday
+        
+    }
 }
 
 
 
+public class Program
+{
+    //Methods
+    static void Main(string[] args)
+    {
+        DiscordTimer myDisssyTimer = new DiscordTimer();
+        Console.ReadLine();
+        
+    }
+ }
 
 
 /*
