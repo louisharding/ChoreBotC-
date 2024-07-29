@@ -9,7 +9,6 @@ using Microsoft.VisualBasic;
 public class DiscordTimer
 {
     //Fields
-    private int dateAsInt = DateTime.Today.DayOfYear;
     private System.Timers.Timer _timer;
 
     //Constructor
@@ -50,27 +49,81 @@ public class DiscordTimer
         _timer.AutoReset = false;
         _timer.Enabled = true;
         _timer.Start();
-
     }
 
     static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
         Console.WriteLine("timer up");
         //Messages to the channel and DM to the blokeoftheday
-        
     }
 }
+
+public class DiscordClient
+{
+    private DiscordSocketClient _client;//Could potentially use DiscordClient instead, as bot use is infrequent
+
+    public DiscordClient()
+    { 
+        Console.WriteLine($"Construcing: {nameof(DiscordClient)}");
+        _client = new DiscordSocketClient();
+        ulong channelID = 1183474990541197356; //to get ID, Remember to right-click on the
+        var channel = _client.GetChannel(channelID) as IMessageChannel;
+        var user = _client.GetUser(Program.GetTodaysBlokeID());
+        Console.WriteLine((Program.GetTodaysBlokename()));
+    }
+
+
+    private async Task OnReadyAsync()
+    {
+        Console.WriteLine("Bot ready");
+    }
+
+    public async Task RunBotAsync()
+    {
+        Console.WriteLine("Runnning bot");
+    }
+
+
+    //private async Task MessageReceivedAsync(SocketMessage message)
+
+    //private async Task HandleMessgeAsync(SocketMessage message)
+}
+
 
 
 
 public class Program
 {
+    //Tuple to hold name and ID
+    static ValueTuple<string, ulong>[] BlokeList = new (string name, ulong userID)[]
+    {
+        ("Tom", 197771388415770624),
+        ("Darcy", 0),
+        ("Louis", 251434937436209152),
+        ("Connor", 0)
+    };
+
+    private static int dateAsInt = DateTime.Today.DayOfYear;
+    public static (string Name, ulong userID) todaysBloke = BlokeList[dateAsInt % 4];
+
+
     //Methods
     static void Main(string[] args)
     {
         DiscordTimer myDisssyTimer = new DiscordTimer();
+        DiscordClient myClient = new DiscordClient();
+
         Console.ReadLine();
-        
+    }
+
+    public static string GetTodaysBlokename()
+    {
+        return todaysBloke.Name;
+    }
+
+    public static ulong GetTodaysBlokeID()
+    {
+        return todaysBloke.userID;
     }
  }
 
